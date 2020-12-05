@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script> 
+    class myset {
+        constructor(iterable = []) {
+            this.totalData = Array.from(iterable);
+            this.size = this.totalData.length;
+        }
+        // 增加方法
+        add(value){
+            if(!this.totalData.includes(value)) {
+                this.totalData.push(value);
+            }
+            return this;
+        }
+
+        //清除方法
+        clear() {
+            this.totalData = [];
+            return this;
+        }
+
+        //删除集中中某一个元素 
+        delete(value) {
+            let index = this.totalData.findIndex(item => item == value);
+            this.totalData.splice(index,1);
+            return this;
+        }
+        // 判断集合中有没有这个值 
+        has(value){
+            return this.totalData.includes(value);
+        }
+        // 两个集合求并集
+        static union(setA,setB) {
+            let _union = new Set(setB);
+            for( let item of setA ) {
+                _union.add(item);
+            }
+            return _union;
+        }
+        // 一个集合是不是另一个集合的子集 
+        static issub(child, father){
+            // 只要子集有一个不在 父子集里面 就是 false
+            for(let item of child) {
+                if(!father.has(item)) {
+                    return false;
+                }
+            }
+            return true;
+        }
+        // 两个集合就交集 
+        static differ(a,b) {
+            let differ = new Set([]);
+            // 遍历b 如果 a中 也有就加入交集中
+            for(let item of b) {
+                if(a.has(item)) {
+                    differ.add(item)
+                }
+            }
+            return differ;
+        }
+        // 求补集
+        static complement(a,b) {
+            let _complement = new Set(a);
+            for( let item of b) {
+                if(_complement.has(item)) {
+                    _complement.delete(item);
+                }
+            }
+            return _complement;
+        }
+
+    }
+    </script>
+</body>
+</html>
