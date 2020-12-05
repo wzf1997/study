@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+<div onclick=" function add (){
+    alert(1)
+}"> 惦记我</div>
+    <script>
+
+     
+            let promise1  = new Promise (resolve =>{
+                setTimeout(
+                    ()=>{
+                        resolve(1)
+                    },5000)
+            });
+            let promise2  = new Promise (resolve =>{
+                setTimeout(
+                    ()=>{
+                        resolve(2)
+                    },5000)
+            });
+            let promise3  = new Promise (resolve =>{
+                setTimeout(
+                    ()=>{
+                        resolve(3)
+                    },5000)
+            });
+         let p1 = Promise.all([promise1,promise2,promise3]);
+         var token = {};
+         let  cancelPreomise =  new Promise((resolve,reject)=>{
+            token.cancel = function(){
+                reject( new Error('cancel'))
+            }
+         })
+        Promise.race([p1,cancelPreomise ]).then(res =>{
+            console.log(res)
+        }).catch(e => console.log(e))
+
+       
+
+        // token.cancel()
+
+
+        
+    </script>
+</body>
+</html>

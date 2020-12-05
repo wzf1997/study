@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+ <style>
+
+     body{
+         height: 2000px;
+     }
+ </style>
+<body>
+    <script>
+    let timer 
+    window.onscroll = function() {
+        //为了保证兼容性，这里取两个值，哪个有值取哪一个
+        //scrollTop就是触发滚轮事件时滚轮的高度
+        let scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+        if(timer){
+            //  如果当前有定时器  那就清除上一个定时器id 重新开始计算定时器
+            clearInterval(timer)
+        }
+        timer=setTimeout(()=>{
+            console.log("滚动距离" + scrollTop);
+            // 如果两秒执行结束后 就可以清除定时器了
+
+            clearInterval(timer)
+        },200)
+    }
+
+    
+    </script>
+</body>
+</html>

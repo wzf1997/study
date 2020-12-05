@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+    //   es5  中实现的继承  
+    //  宝宝
+      function  Father(){
+          this.money=100
+      }
+      Father.prototype.pay=function(){
+          return  this.money-1
+      }
+    //    孩子有自己的私房钱  5 快
+      function  Child(){
+          this.a=5
+      }
+    //    这时候 孩子 已经继承了 父亲的钱 同时 也继承了父亲花钱的方法
+      Child.prototype=new Father()
+      let  b=new  Child()
+      let  c=new  Father()
+      Child.prototype.pay=function(){
+          return  this.money-10 
+      } 
+      console.log(c.pay())
+      console.log(b.pay())
+    //   但是father 继承的是顶级对象 object   所以拥有 toString
+    //  返回的是一个字符串    "[object object]"  可以用来判断数组 
+    //  但是如果重写 父亲花钱的方法  也就是我一次 不想一块 一块的花  我想10 快的花费
+    //  父亲的实例调用 还是99  但是 孩子的实例的调用  还是90   如果想要都改变 就要把方法
+    //   放在实例之后  
+    </script>
+</body>
+</html>

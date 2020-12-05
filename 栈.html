@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // 栈的特点 就是 先入 后出  联想 酒店洗盘子 我们用数组去模拟栈的情况
+        // 程序例子 函数调用栈  递归
+        // 递归如果没有终止条件 会导致栈溢出
+        class Stack {
+            constructor() {
+                this.dataSource = [];
+            } 
+            // 入栈 
+            push(value) {
+                this.dataSource.push(value)
+            }
+            // 出栈 
+            pop() {
+                return this.dataSource.pop()
+            }
+            // 判断栈是否为空
+            isEmpty() {
+                return this.dataSource.length === 0
+            }
+            //访问栈顶的元素
+            peek() {
+                return this.dataSource[this.dataSource.length-1]
+            }
+            //栈的个数
+            size() {
+                return this.dataSource.length
+            }
+            // 出栈转成字符串
+            toSting() {
+                return this.dataSource.reverse().join('')
+            }
+        }
+
+        let  s = new Stack();
+        // 10进制 转2进制  
+        function  binary(value) {
+            while( value > 0 ) {
+                s.push(value%2);
+                value = Math.floor(value/2);
+            }
+            return  s.toSting();
+        }
+        // 实现阶乘 5！ 
+        function factoriy(num) {
+            let result = 1;
+            if(num == 1 ) {
+                return 1;
+            }
+            while( num >=1 ) {
+                s.push(num--);
+            }
+            while(!s.isEmpty()) {
+                result *= s.pop();
+            }
+            return  result;
+        }
+        console.log( factoriy(5) );
+    </script>
+</body>
+</html>

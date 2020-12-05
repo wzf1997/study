@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+     <script>
+      // 快速排序的实现思路  第一种快速排序算法的 弊端 就是如果数据过大的话 创建了太多的数组  
+      // 占据了内存空间  
+        function  quickSort(arr){
+            let left = [];
+            let right = [];
+            let base = arr.splice(0,1)[0];
+            // 如果数组的个数是0 个或者是一个  直接返回数组 
+            if(arr.length<2){
+                return arr 
+            }else {
+                 // 否则的话  就按照基准分为 两个区间
+                arr.forEach(elem => {
+                    if(elem > base){
+                        right.push(elem)
+                    }else{
+                        left.push(elem)
+                    }
+                });
+            }
+            return   quickSort(left).concat( base,quickSort(right))
+       }
+    //    console.log(quickSort([1,9,8,6,45,77,99])) ;  
+      // 选择排序算法  每次都找到最小的  然后交换位置
+      function  selectSort2(arr,type){
+          for( let i=0; i<=arr.length-1; i++){
+              for(let j=i+1; j<=arr.length-1; j++){
+                    if( type == "desc"?arr[j]>arr[i]:arr[i]>arr[j]){
+                        [arr[i],arr[j]]=[arr[j],arr[i]];
+                    }
+                }
+          }
+          return arr
+      }
+    //   console.log(bubbleSort2([1,9,8,6,45,77,99],"asc") ); // 时间复杂度是On2
+      // 冒泡排序算法  冒泡排序的实现思路 将数组中的每一个元素 与其他元素比较然后交换位置
+      function  bubleSort (arr){
+          for (let i = 0; i<=arr.length-1 ;i++){
+              for(let j = i+1; j<=arr.length-1;j++){
+                  //  第一个元素的都是最大的
+                   if(arr[i]<arr[j]){
+                       [arr[i],arr[j]] = [arr[j],arr[i]];
+                   }               
+              }
+          }
+         return arr  
+      }
+      console.log(bubleSort([1,9,8,6,45,77,99])); 
+      
+      // 所以我们采用第二种快速排序 的算法  
+      function quickSort(arr) {
+        const sort = (arr, left = 0, right = arr.length - 1) => {
+            if (left >= right) return ;
+            let i = left
+            let j = right
+            let temp = arr[j]
+            while (i < j) {
+                while (i < j && arr[i] <= temp) {
+                    i++
+                }
+                arr[j] = arr[i]
+                while (i < j && arr[j] >= temp) {
+                    j--
+                }
+                arr[i] = arr[j]
+            }
+            arr[j] = temp
+            sort(arr, left, j - 1)
+            sort(arr, j + 1, right)
+        }
+        sort(arr)
+        return arr
+    } 
+        </script>
+</body>
+</html>

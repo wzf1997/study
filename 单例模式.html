@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+         //  单例模式 
+         // 从jsonp 实现 ----到理解单例模式  
+         //  就是用一个变量来表示当前实例是不是已经创建
+         //  如果创建过这个实例 就直接返回 否则就是新建一个实例 并将此返回 
+         //  从单列模式思考：项目中的优化   比如登录弹窗组件  首先点击登录时候
+         //  在body 下创建一个div 节点 如果用户注销  这时候点击登录 就不需要
+         //  就不用创建这个div 节点 直接用上次的  只不过把他的display 设置为block 而已
+         //  不用重排重绘 引发页面渲染 
+          function SingleTon(){
+              this.instance =null ;
+          }
+          SingleTon.getInstance = function(){
+              if(!this.instance){
+                   this.instance =  new  SingleTon();
+              }
+              return  this.instance
+          }
+        let a =  SingleTon.getInstance();
+        let b = SingleTon.getInstance(); 
+        console.log( a==b ); 
+    </script>
+</body>
+</html>

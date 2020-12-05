@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // 5 求阶乘 
+        function factorial (n){
+            let count = 1;
+            while(n>=1){
+               count *= n;
+               n--;
+            }
+            return count;
+        }
+        // 用递归实现
+        function  factorial2 (n){
+              if( n==1 ){
+                return 1;
+              }else{
+                return n*factorial2(n-1);
+              }
+        }
+    // console.log(factorial(5));  
+        console.log(factorial2(5)) 
+    </script>
+</body>
+</html>

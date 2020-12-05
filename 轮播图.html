@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+     <style>
+         .swiper{
+             margin: 0 auto;
+             width: 700px;
+         }
+         ul li{
+             width: 15px;
+             height: 15px;
+             border-radius: 50%;
+             background-color:grey;
+         }
+         li+li{
+             margin-left: 10px;
+         }
+         ul{
+             display: flex;
+             justify-content: center;
+             list-style: none;
+             padding-left: 0;
+         }
+         .active{
+             background-color: #f26def;
+         }
+     </style>
+</head>
+<body>
+    <div class="swiper">
+        <image src="./1.jpg" id="img" style=" height: 200px; width: 700px;"></image>
+         <ul  id="btn">
+             <li class="noramal" data-id="1"></li>
+             <li class="noramal" data-id="2"></li>
+             <li class="noramal" data-id="3"></li>
+             <li class="noramal" data-id="4"></li>
+         </ul>
+    </div>
+    
+
+    <script>
+         let  img=document.getElementById("img")
+         let  lis=document.querySelectorAll("li")
+         let  index=1
+         let timer=setInterval(()=>{
+            Array.from(lis).forEach((elem,i)=>{
+                 if(i+1==index){
+                     elem.className="active"
+                 }else{
+                     elem.className="normal"
+                 }
+            })
+            index=index==4?1:index+1
+            img.setAttribute("src",`./${index}.jpg`)
+        },2000)
+        let  btn=document.getElementById("btn")
+        onclick=function click(e){
+             let li=e.target
+             let  clickI= li.getAttribute("data-id")||4
+             index=Number(clickI)
+             img.setAttribute("src",`./${clickI}.jpg`)
+             Array.from(lis).forEach((elem,i)=>{
+                 if(i+1==clickI){
+                     elem.className="active"
+                 }else{
+                     elem.className="normal"
+                 }
+            })
+
+        }
+      
+    </script>
+</body>
+</html>

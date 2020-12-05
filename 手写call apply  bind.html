@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // 手写 call apply  bind 
+       Function.prototype.mycall = function(context){
+            let cxt = context ||  window ;
+            // 获取除了第一个绑定的对象的剩下所有参数
+            let  args = Array.from(arguments).slice(1); 
+            // 根据对象的显示绑定this 的特点
+            // 将函数调用放在对象 里面  this 就是指的是谁调用的他 也就是那个函数；
+             cxt.func = this;
+             const  res = arguments.length >1 ? cxt.func(...args) : cxt.func();
+             // 调用完直接删除这个属性  避免造成过多的
+             delete cxt.func;
+             return res
+
+       }
+       // 手写apply 
+       Function.prototype.myapply = function(){
+           let cxt = arguments[0] || window
+           cxt.func = this;
+           const res = arguments.length >1 ? cxt.func(...arguments[1]) : cxt.func() ;
+           delete cxt.func
+           return  res
+       }
+       // 手写bind  
+       Function.prototype.mybind = function(){
+            if (typeof this !== "function") {
+            throw new Error("Function.prototype.bind - what is trying to be bound is not callable");
+            }
+             // 函数调用的本身 
+            var self = this;
+            
+            var args = Array.prototype.slice.call(arguments, 1);
+            var fNOP = function () {};
+            fNOP.prototype = this.prototype;
+            var fbound = function () {
+                //  这个是为了防止 bind的函数  new 一下 new 的原理 是直接改变this 的指向
+                return self.apply(this instanceof self ? this : context, args.concat(Array.prototype.slice.call(arguments)));
+            }
+
+            
+            fbound.prototype = new fNOP();
+
+            return fbound;
+       }
+    </script>
+</body>
+</html>

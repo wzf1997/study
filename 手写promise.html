@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // 手写promise 
+         
+        // 判断返回的值；
+        function  judgePromise (promise2, x ,resolve, reject) {
+            // 如果和自身相同 就是 循环引用
+            if( promise2 == x) {
+                return  reject( new TypeError('类型性错误'));
+            }
+            // 定义一个变量 表示promsie 是否调用过 一旦调用 状态 就不会再次改变
+            let called; 
+            // 返回的是 对象或者 或者是函数 那么取 函数对象上的 then 属性
+            if( x!==null && typeof x == 'object' || typeof x == 'function') {
+                try{
+                    let then = x.then
+                    // 如果 then 是函数  就是认为 返回的是 promsie 
+                    if( typeof then == 'function') {
+                        // 
+                        then.call(x,(value)=>{
+                            // 这里也有可能是 promise 
+                            // 所以这里用一下 递归
+                            if(called) {
+                                return;
+                            }
+                            called = true;
+                            judgePromise(promise2, value, resolve, reject);
+                        },(err)=>{
+                            if(called) {
+                                return;
+                            }
+                            called = true;
+                            reject(err);
+                        })
+                    }else {
+                        // 这里就是对象中的一个普通的值
+                        if(called) {
+                            return;
+                        }
+                        called = true;
+                        resolve(x);
+
+                    }
+                } catch (e) {
+                    // 这里捕获的 是没有 then 属性的 比如 函数
+                    if(called) {
+                        return;
+                    }
+                    called = true;
+                    reject(e);
+                }
+            }else {
+                // 返回值 是一个数值
+                if(called) {
+                    return;
+                }
+                called = true;
+                resolve(x)
+            }
+        }
+        class myPromise {
+            constructor(exactor){
+                this.status = 'pending';
+                this.reason;
+                this.value;
+                this.onResolvedCallback = [];
+                this.onRejectedCallback = [];
+                exactor(this.resolve.bind(this),this.reject.bind(this))
+            }
+            resolve(value) {
+                if(this.status === 'pending') {
+                    this.status = 'fuilled';
+                    this.value = value;
+                    this.onResolvedCallback.forEach(fn=> fn());
+                }
+            }
+            reject(reason) {
+                if(this.status === 'pending') {
+                    this.reason = reason;
+                    this.status = 'reject';
+                    this.onRejectedCallback.forEach(fn => fn());
+                }
+            }
+            
+            // promise 的链式调用的原理 返回一个promise 这个的promise 的resove 结果是上一个promise 的 resolve 或者
+            // 是 reject 的结果
+            // 点then  返回的可能有3种 1.正常的值 2. 对象中含有then 方法  3. 
+            // 返回的是一个promise
+            then(onfuilled,onreject) {
+                // 为了应付这种写法  p.then().then().then((data)=>{});
+                onfuilled = typeof onfuilled === 'function' ? onfuilled : (data)=> { return data };
+                onreject = typeof onreject === 'function' ? onreject : (err)=> { throw err };
+                let self = this;
+                let p2 = new myPromise(resolve=>{
+                    if(self.status == 'fuilled') {
+                        setTimeout (()=>{
+                            let lastRes = onfuilled(self.value);
+                            // lastRes 可能 是promsie肯呢个是对象  
+                            judgePromise(p2, lastRes, resolve, reject);
+                        },0)
+                    }
+                    if(self.status === 'reject') {
+                        setTimeout (()=>{
+                            let lastRes = onreject(self.reason);
+                            judgePromise(p2, lastRes, resolve, reject);
+                        },0)
+                    }
+                    // 这个 就是为了解决 异步情况下  resolve 还没执行 then 已经执行了
+                    if(self.status === 'pending') {
+                        setTimeout(()=>{},0);
+                        self.onResolvedCallback.push(()=>{
+                            setTimeout(()=>{
+                                let lastRes = onfuilled(self.value);
+                                judgePromise(p2, lastRes, resolve, reject); 
+                            },0);
+                        });
+                        self.onRejectedCallback.push(()=>{
+                            setTimeout(()=>{
+                                let lastRes = onreject(self.value);
+                                judgePromise(p2, lastRes, resolve, reject);
+                            },0)
+                        });
+                    }
+                });
+                return p2;
+            }
+            // promise.all 实现
+            static all(values){
+                return new Promise((resolve,reject)=>{
+                    let res = []; // 定义结果数组
+                    let index = 0; // 用来记录函数调用的次数
+                    function storeRes(value,key) {
+                        res[key] = value;
+                        index++;
+                        if(index === values.length) {
+                            resolve(res);
+                        }
+                    }
+                    values.map((item,index) =>{
+                        if(item && item.then && typeof item.then === 'function') {
+                            item.then((value)=>{
+                                storeRes(value,index);
+                            },(err)=> {
+                                reject(err);
+                            })
+                        }else {
+                            storeRes(item,index);
+                        }
+                    })
+                })
+            }
+
+        }
+        let p1= new Promise((resolve)=>{
+            setTimeout(()=>{
+                resolve(3);
+            },1000)
+        });
+        let p2= new Promise((resolve)=>{
+            setTimeout(()=>{
+                resolve(2);
+            },2000)
+        });
+        let p3= new Promise((resolve)=>{
+            setTimeout(()=>{
+                resolve(1);
+            },1000)
+        });
+        myPromise.all([p1,p2,p3]).then( res=>{
+            console.log(res);
+        })
+        //promise.all 实现 
+        // promise.all 接受的一个数组
+        let arr = [];
+        arr[1] = 0;
+        arr[3] = 3;
+        console.log(arr)
+    </script>
+</body>
+</html>

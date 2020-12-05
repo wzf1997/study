@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // 如何写出优雅的代码   策略模式 
+        // 根据不同的人计算出不同的奖金 
+        function  calucateBonus(name,salary){
+            if(name == "a"){
+                return salary*2
+            }
+            if(name == "b"){
+                return salary*3
+            }
+            if(name == "c"){
+                return salary*4
+            }
+        }
+        //  建立一个对象 将一些同样的方法封装起来 
+        //  符合函数的开闭原则。
+        let salaryMap ={}
+        salaryMap.a=function(salary){
+            return salary*2
+        }
+        salaryMap.b=function(salary){
+            return salary*3
+        }
+        salaryMap.c=function(salary){
+            return salary*2
+        }
+        function calucateBonus2(tag,salary){
+             return salaryMap[tag](salary)
+        }
+        console.log(calucateBonus("a",200)); 
+        console.log(calucateBonus2("b",200));
+    </script>
+</body>
+</html>

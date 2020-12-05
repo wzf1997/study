@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // async function add(){
+        //  try{
+        //      let a =  await new Promise((resolve,reject)=>{
+        //         setTimeout(() => {resolve(c)})
+        //     })
+        //  }catch (e){
+        //      console.log(e)
+        //  }
+        //  console.log("888")
+        // }
+        // add()
+
+        new Promise((resolve,reject) => {
+            console.log("我开始了")
+             setTimeout(()=>{
+                 console.log("我结束了")
+                 console.log("3")
+             })
+             console.log("2")
+        })
+        console.log("1")
+       // 首先 try catch 是同步执行的  new Promise 也是同步执行的 
+       // 而promsie 中的错误都是由原型链上的catch 方法捕捉 里面内置了 try catch  
+       //  但是async  await  则不一样了 await 一定到后面的promsie 对象resolve 出一个值 
+       //  然后 await  才继续执行  如果reject 还是会直接还是会直接报错  但是这时候还在try catch
+       // 这个线程中 
+    </script>
+</body>
+</html>

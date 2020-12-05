@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+function debounce(func,wait,immediate) {
+    let timeout;
+    //  首先 timeout  是一个闭包  第一次调用的时候就存了下来
+    return function () {
+        let context = this;
+        let args = arguments;
+
+        if (timeout) clearTimeout(timeout);
+        if (immediate) {
+            // call
+            var callNow = !timeout;
+            timeout = setTimeout(() => {
+                //  清除闭包 引用 
+                timeout = null;
+            }, wait)
+            if (callNow) func.apply(context, args)
+        }
+        else {
+            timeout = setTimeout(function(){
+                func.apply(context, args)
+            }, wait);
+        }
+    }
+}
+function add(){
+    console.log(2)
+}
+ debounce(add,1000,true)()
+
+    </script>
+</body>
+</html>

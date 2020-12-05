@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+    <script>
+        // 首先 promise  有3中状态  分别是 pending  fulfilled rejected 
+        const PENDING = "prending";
+        const FULFILLED = "fulfilled";
+        const REJECTED = "rejected";
+
+        // 手写 promsie  
+        function MyPromise(excutor){
+           this.value = null  // 成功的值
+           this.error = null  // 失败的值
+           this.onFulfilled = null  // 成功的回调函数
+           this.onRejected = null  // 失败的回调函数 
+           this.status = PENDING ; // 一开始的状态是pending  
+           if( this.status == PENDING){
+                function resolve(value){
+                // 这里加一个定时器的作用就是 
+                setTimeout(()=>{
+                    this.value =  value; 
+                    this.onFulfilled(value);
+                    // 并把状态改为 成功
+                    this.status = FULFILLED;
+                })
+            } 
+           }
+           // 只有刚开始的状态为挂起的时候
+           if (this.status == PENDING){
+                function  reject(err){
+                    setTimeout(()=>{
+                        this.error = err;
+                        this.onRejected(err);
+                        this.status = REJECTED;
+                    });
+                }
+           }
+            
+           //  excutor  是接受的回调函数  有两个参数 一个是resolve 函数 
+           //  一个reject 函数
+           excutor(resolve,reject)
+        }
+        MyPromise.prototype.then =  function(onFulfilled,onRejected){
+            // then  在当前实例 注册成功和失败的回调
+            if(this.status == PENDING){
+                this.onFulfilled =onFulfilled; 
+                this.onRejected=onRejected;
+            }
+            // 如果当前是已经完成 直接执行成功回调 并把成功的值吐出去
+            else if(this.status == FULFILLED){
+                onFulfilled(this.value)
+            }
+            else{
+                onRejected(this.err)
+            }
+
+        }
+        //  promsie 支持链式调用 原型链上。then 方法都返回一个新的promsie 实例
+        //  如果第一个resolve  函数返回的是一个promise 那么一定会等这个promise 的状态为fulfilled
+        //  才会执行下一个then  成功的回调
+        //  promise 状态的改变一定是有
+       let p=  new Promise(resolve =>{
+              setTimeout(()=>{
+                  resolve(6)
+              })
+        })
+        console.log(p)
+        // // 
+       
+    </script>
+</body>
+</html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+    /* *  每隔一秒才输出值
+    */
+    // console.time()
+    // function sleep(time){
+    //     for (let i=1; i<=5; i++){
+    //         setTimeout(()=>{
+    //           console.log(i)
+    //         },time)
+    //     }
+    // }
+    // sleep(1000)
+    // console.timeEnd()
+    // 这段代码的执行顺序  let 本质上快级作用域 i 本次循环都当做闭包留下了  执行耗时0.16 ms 
+    // 并没有达到程序睡眠的效果  
+    
+    // 看下面的改进方法  await  一定要等
+    console.time("sleep")
+    function sleep2 (){
+        return new Promise(resolve => {
+            setTimeout(resolve,1000)
+        })
+    }
+    async function start () {
+        for ( let i=1; i<=5; i++){
+            console.log(i)
+            await sleep2()
+        }
+        console.timeEnd("sleep")
+    }
+    start()
+    </script>
+</body>
+</html>

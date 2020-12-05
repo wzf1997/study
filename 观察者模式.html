@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // 观察者模式  
+        // 观察者模式 就是售楼处 售楼处的花名册就是监听者 
+        // 来了新房源 就是触发者 就是发短息告诉所有要买房子的人
+        // 实际场景就是用户登录是否成功才会加载某一些模块
+        // 一般人的思路就是写在登录成功的回调中 如果临时增加业务 就会代码耦合性太差
+        // 所以直接用观察者模式 触发所有的监听的回调
+        // 这些模块监听这个事件 登录成功 所有回调自动执行 并把成功的数据传给所有的模块
+        let   salesOffice = {} ; 
+        salesOffice.callbackList ={};
+        // 这是监听
+        salesOffice.listen = function( key, callback){
+            if( !this.callbackList[key]){
+                this.callbackList[key] = [];
+            }
+            this.callbackList[key].push(callback)
+        } 
+        // 这是触发所有事件
+        salesOffice.trigger = function (){
+            let  key2 = Array.prototype.shift.call(arguments);
+            Object.keys(this.callbackList).forEach( key => {
+                 if(key == key2){
+                     let  fns = this.callbackList[key] ;
+                     fns.forEach( fn => {
+                           fn.apply(null,arguments)
+                     })
+                }
+            })
+        }
+        // 取消监听
+        salesOffice.remove =  function (key, fn) {
+            let fns = this.callbackList[key]; 
+            //如果当前属性 不存在
+            if(!fns){
+                return  false
+            }
+            // 如果没有传 fn 表示清空所有回调函数
+            if(!fn){
+               !fns&&(fns = []);
+            }
+            // 然后倒叙遍历  遍历出与其相等的 然后将其删除
+            for(let i=fns.length-1 ;i>=0; i--){
+                  if(fns[i] == fn){
+                     fns.splice(i,1)
+                  }
+            }
+        }
+        salesOffice.listen( "xixi",function f1(price,squareMaster){
+            console.log("价格", price );
+            console.log("面积",squareMaster)
+        })
+        salesOffice.listen("haha",function f2(price,squareMaster){
+            console.log("价格", price );
+            console.log("面积",squareMaster)
+        })
+        salesOffice.trigger("xixi",100000,20000) 
+    
+    </script>
+</body>
+</html>

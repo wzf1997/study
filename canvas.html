@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    body{
+        width: 100vw;
+        text-align: center;
+    }
+     canvas {
+         margin:20px auto;
+         box-shadow: 0 0 10px #333;
+     }
+</style>
+<body onload=" ">
+      <canvas id='canvas' width="800" height="600">
+          你的浏览器不支持canvas
+      </canvas>
+</body>
+<script>
+    function draw() {
+    let canvas = document.getElementById('canvas');
+     if(canvas.getContext) {
+         let ctx  = canvas.getContext('2d');
+         console.log(ctx)
+     }
+    }
+</script>
+</html>

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        /// 分析下  这段代码  count  是闭包  
+        //  a 调用  返回一个新的函数 调用这个新的函数时
+        //  首先这个函数的活动对象 第一层能访问的作用域 
+        function a(){
+            let count=100 
+            return function b(){
+                  console.log(--count)
+            }
+        }
+         cloures=a()
+         setInterval(()=>{
+            cloures()
+         },1000) 
+    </script>
+</body>
+</html>

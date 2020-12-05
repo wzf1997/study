@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+     <div id="d1" onclick="tt()">
+        222
+     </div>
+    <script>
+        // let d1=document.getElementById("d1")
+        //  function tt(){
+        //     var frame = document.createElement('script');
+        //     frame.src="http://localhost:3030?callback=add"
+        //     document.body.append(frame)
+        // }
+        // //
+        // function add(res){
+            
+        //     alert(`我jsop实现成功了`)
+        // }
+        function tt(){
+            fetch("http://localhost:3030?callback=add",
+             {
+                 mode:"cors"
+             }
+           ).then(res=>{
+               console.log(res)
+           })
+        }
+    </script> 
+</body>
+</html>

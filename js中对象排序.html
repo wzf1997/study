@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+         var arr = [{
+            data: 21,
+            weather:'晴'
+        }, {
+            data: 111,
+            weather:'小雨'
+        }, {
+            data: 32,
+            weather:'大雨'
+        }, {
+            data: 2,
+            weather:'小雨'
+        }, {
+            data: 2,
+            weather:'阴'
+        }, {
+            data: 212,
+            weather:'雪'
+        }]
+    let  newarr=arr.sort((a,b)=>{
+        console.log(a,b)
+        let  value1=a.data
+        let  value2=b.data
+          if(value1-value2>0){
+              return 1
+          }else if(value1-value2<0){
+              return -1
+          }else{
+              return 0
+          }
+    })
+    console.log(newarr)
+
+    </script>
+</body>
+</html>

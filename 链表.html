@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // 链表的使用 
+        //  先定义节点类型  当前节点的的元素是谁  下一个节点是谁
+        class Node {
+            constructor(value) {
+                this.value = value;
+                this.next = null;
+            }
+        }
+        class LinkList {
+            constructor() {
+                // 头节点
+                this.head = new Node('head');
+            }
+            // 找到链表中某个元素 从头结点开始 
+            find(item){
+               let currentNode = this.head;
+               // 不相等的时候就指向下一个节点,找到了退出循环,找不到返回 null
+                while(currentNode.value !== item ) {
+                    currentNode = currentNode.next;
+                }
+                return currentNode;
+            }
+            // 找到某个链表某个节点的前一个节点 
+            findPrevious(item){
+                let currentNode = this.head;
+                while( currentNode.next != null && currentNode.next.value !== item ) {
+                    currentNode = currentNode.next;
+                }
+                return currentNode;
+            }
+            // 删除链表中某一个节点
+            remove(item) {
+                let prevNode = this.findPrevious(item);
+                if(prevNode.next !== null) {
+                    prevNode.next = prevNode.next.next;
+                }
+            }
+            
+            //在链表中插入某个节点 
+            insert(newEle,item) {
+                // 建立一个新的节点实例
+                let newNode = new Node(newEle);
+                // 找出插入元素在链表中的位置  
+                let currentNode = this.find(item);
+                // 然后 将当前节点指向 新节点 
+                // 新节点的next指向 当前节点的下一个位置
+                newNode.next = currentNode.next;
+                currentNode.next = newNode;
+            }
+            // 展示列表中所有元素
+            display(){
+                let currentNode = this.head;
+                let arr = [];
+                while( currentNode.next !== null ) {
+                    arr.push(currentNode.value);
+                    currentNode = currentNode.next;
+                }
+                return arr;
+            }
+        }
+    </script>
+</body>
+</html>

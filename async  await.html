@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+      async  function add(){
+          try{
+               let  one = await Promise.reject("失败了");
+          }catch (e){
+               console.log(e)
+          }
+          let  two = await Promise.resolve("我是第二个");
+          let three = await Promise.resolve("我是第三个");
+          return  {two,three}
+      }
+      add().then(res=>{
+          console.log(res)
+      })
+    </script>
+</body>
+</html>

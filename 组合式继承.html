@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+     <script>
+
+        //    组合式继承  结合了 组成式 和原型链式 继承的优点  
+        // 原型链继承的缺点    当父类的属性 是引用数据类型的时候  
+        //  只要一个子类改变其中  后面子类访问 会被影响到
+
+        //  解决方案  在每个子类  call 调用父类的 构造函数  并且 可以改变  
+        // this  执行 和传值   
+        function  Father(){
+            this.color=["red","green","blue","black"]
+        }
+        function  Child(){
+             Father.call(this)
+        }
+         Child.prototype=new Father()
+         let a=new Child()
+         a.color.push("3333")
+         let b=new Child()
+         console.log(b.color)
+     </script>
+</body>
+</html>

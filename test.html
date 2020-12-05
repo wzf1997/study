@@ -1,0 +1,31 @@
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+    </head>
+    <body>
+       <script>
+            //var result = merge({foo: 123}, {foo: 456});
+           // * console.log(result.foo); // outputs 456
+        function  merge(){
+              let toArray = Array.from(arguments);
+              let map = new Map();
+              toArray.forEach(elem => {
+                    Object.keys(elem).forEach( key => {
+                        // if( map.has(key) ){
+                        //     map.set(key, elem[key]);
+                        // }else {
+                        //     map.set(key)
+                        // }
+                        map.set(key, elem[key]);
+                    })
+              }) 
+              return map 
+        } 
+        let map =merge({foo:123},{foo:456});
+         console.log(...map.entries()) 
+       </script> 
+    </body>
+    </html>

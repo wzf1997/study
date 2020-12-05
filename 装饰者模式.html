@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // 装饰者模式  // 好处包 保证之前函数的完整性  增强原函数的功能 并且参数进行增强 
+        Function.prototype.before = function( beforefn ){ 
+            var __self = this; 
+            return function(){ 
+                beforefn.apply( this, arguments ); // (1) 
+                return __self.apply( this, arguments ); // (2) 
+            } 
+        }
+        var func = function( param ){ 
+            console.log( param ); // 输出： {a: "a", b: "b"} 
+        }; 
+        func = func.before( function( param ){ 
+            param.b = 'b'; 
+        });  
+        // 这段代码的执行顺序  因为arguments 是引用数据类型    先往arguments 对象增加了一个属性
+        // 所以呢原来的代码吗就比之前多了一个属性
+        func( {a: 'a'} );
+    </script>
+</body>
+</html>

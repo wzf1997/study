@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+
+        function _New(constructor){
+            let otherArgs=[].slice.call(arguments,1);
+            let newObj = {}
+            let result = constructor.aply(newObj,otherArgs);
+            ///prototype 和__proto__ 的区别在于 __proto__ 是每一个对象都有的 
+            // 而prototype 是 构造函数才有的
+            newobj.__proto__ = constructor.prototype; 
+            // 如果构造函数 返回 一个 对象  就返回这个对象 否则 就返回一个新对象
+            if(result && typeof result =="object" && typeof result =="function"){
+                return result
+            }
+            return  newObj
+        }
+       
+    </script>
+</body>
+</html>

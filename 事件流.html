@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div  id='father'>
+        <div id="child"  >
+            test 
+        </div>
+    </div>
+    <script>
+        child.addEventListener("click",()=>{
+            console.log(this)
+           console.log("child",true)
+        },true)
+        father.addEventListener("click",()=>{
+            console.log("father",true)
+        },true)
+        child.addEventListener("click",()=>{
+            console.log("child1",true)
+        },false)
+        father.addEventListener("click",()=>{
+            console.log("father",true)
+        },false)
+    </script>
+</body>
+</html>
